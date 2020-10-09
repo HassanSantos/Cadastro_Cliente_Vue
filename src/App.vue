@@ -45,7 +45,7 @@
             <td> {{ cliente.cep }}</td>
             <td> {{ cliente.logradouro }}</td>
             <td>
-              <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+              <button @click="editar(cliente)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
               <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
             </td>
 
@@ -61,7 +61,6 @@
 </template>
 
 <script>
-
 import Cliente from './services/clientes' 
 
 export default{
@@ -69,6 +68,7 @@ export default{
   data(){
     return {
       cliente:{
+        id: '',
         nome: '',
         cpf: '',
         cep: '',
@@ -91,12 +91,25 @@ export default{
   },
 
     salvar(){
-      Cliente.salvar(this.cliente).then(resposta =>{
+      if(!this.cliente.id){
+        Cliente.salvar(this.cliente).then(resposta =>{
+          this.cliente = {}
+          alert(resposta, '')
+          this.listar()
+        })
+      }else{
+      Cliente.atualizar(this.cliente.id, this.cliente).then(resposta =>{
         this.cliente = {}
         alert(resposta, '')
         this.listar()
       })
+      }
 
+
+    },
+
+    editar(cliente){
+      this.cliente = cliente
     }
   }
 }
