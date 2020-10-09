@@ -12,5 +12,9 @@ export default {
 
     atualizar:(id, cliente) => {
         return http.put(`clientes/${id}`, cliente);
-    }
+    },
+
+    apagar:(id) => {
+        return http.delete(`clientes/${id}`);
+    },
 }
